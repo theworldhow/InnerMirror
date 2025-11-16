@@ -1,4 +1,4 @@
-# InnerMirror Testing Guide
+# InnerMirror Testing Guide.
 
 ## Quick Start Testing
 
