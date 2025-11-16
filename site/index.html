@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>InnerMirror</title>
+    <meta name="description" content="InnerMirror - Personal insights and guidance." />
+    <style>
+      :root { color-scheme: light dark; }
+      body {
+        margin: 0;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
+        line-height: 1.5;
+        background: #0a0a0a;
+        color: #e8e8e8;
+      }
+      .wrap {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 48px 20px 80px;
+      }
+      header h1 {
+        margin: 0 0 8px;
+        font-weight: 700;
+        letter-spacing: 0.5px;
+      }
+      header p {
+        margin: 0 0 24px;
+        color: #a0a0a0;
+      }
+      nav a {
+        display: inline-block;
+        margin-right: 16px;
+        padding: 8px 12px;
+        border: 1px solid #333;
+        border-radius: 8px;
+        text-decoration: none;
+        color: #e8e8e8;
+      }
+      nav a:hover { background: #141414; }
+      main { margin-top: 32px; }
+      footer {
+        margin-top: 48px;
+        border-top: 1px solid #1f1f1f;
+        padding-top: 16px;
+        font-size: 14px;
+        color: #8a8a8a;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <header>
+        <h1>InnerMirror</h1>
+        <p>Support links and policies for the InnerMirror app.</p>
+        <nav>
+          <a href="./privacy.html">Privacy Policy</a>
+          <a href="./support.html">Support</a>
+        </nav>
+      </header>
+      <main>
+        <h2>About</h2>
+        <p>
+          InnerMirror helps you reflect on your life data and receive guidance. This page
+          hosts public documents used for App Store submission and customer support.
+        </p>
+      </main>
+      <footer>
+        © <span id="y"></span> InnerMirror
+      </footer>
+    </div>
+    <script>
+      document.getElementById("y").textContent = new Date().getFullYear();
+    </script>
+  </body>
+</html>
+
+
