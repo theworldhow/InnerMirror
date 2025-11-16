@@ -1,0 +1,58 @@
+APP STORE CONNECT METADATA
+===========================
+
+App Name: InnerMirror
+
+Subtitle: The AI That Knows You Better Than You Ever Will
+
+Description:
+You can hide from everyone. You can't hide from you.
+
+InnerMirror is a completely private, on-device AI companion that learns from your life to reflect back the truth you've been avoiding.
+
+FEATURES:
+• 5 Brutally Honest Mirrors - Truth, Strength, Shadow, Growth, Legacy
+• 100% On-Device AI - Your data never leaves your phone. Ever.
+• Personal Soul Model - Fine-tuned nightly to sound exactly like you
+• Future You 2035 - Weekly voice messages from your wiser self
+• Regret Simulator - Know before you send that text you'll regret
+• Secrets Vault - Biometric-locked encrypted journal with annual Burn Day
+• Zero Cloud - No servers. No uploads. Complete privacy.
+
+This is not therapy. This is not meditation. This is a mirror.
+
+Keywords:
+privacy,on-device,AI,personal,reflection,self-awareness,private,local,secure,encrypted,biometric,voice,journal,diary,mental-health,wellness,self-improvement,authentic,truth,shadow-work
+
+Promotional Text:
+100% on-device. No servers. No uploads. Your data never leaves your phone. Not even we can see it. Complete privacy. Complete honesty.
+
+Support URL: https://innermirror.app/support
+Marketing URL: https://innermirror.app
+Privacy Policy URL: https://innermirror.app/privacy
+
+Category: Health & Fitness > Mental Health
+
+Age Rating: 17+ (Frequent/Intense Mature/Suggestive Themes)
+
+Screenshots Required:
+- 6.7" iPhone (iPhone 14 Pro Max, iPhone 15 Pro Max)
+- 6.5" iPhone (iPhone 11 Pro Max, iPhone XS Max)
+- 5.5" iPhone (iPhone 8 Plus)
+- 12.9" iPad Pro
+- 6.7" Android Phone
+- 7" Android Tablet
+
+Screenshot Guidelines:
+- Pure black background (#000000)
+- Show mirror cards with blurred text (enough to pass review but show structure)
+- Minimal, luxurious aesthetic
+- White text on black
+- No personal data visible
+
+App Icon:
+- 1024x1024 PNG
+- Pure black square (#000000)
+- Tiny white cracked mirror icon in center
+- Minimal, symbolic
+

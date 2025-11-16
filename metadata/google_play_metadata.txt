@@ -1,0 +1,46 @@
+GOOGLE PLAY CONSOLE METADATA
+============================
+
+App Name: InnerMirror
+
+Short Description (80 chars):
+The AI That Knows You Better Than You Ever Will
+
+Full Description:
+You can hide from everyone. You can't hide from you.
+
+InnerMirror is a completely private, on-device AI companion that learns from your life to reflect back the truth you've been avoiding.
+
+FEATURES:
+• 5 Brutally Honest Mirrors - Truth, Strength, Shadow, Growth, Legacy
+• 100% On-Device AI - Your data never leaves your phone. Ever.
+• Personal Soul Model - Fine-tuned nightly to sound exactly like you
+• Future You 2035 - Weekly voice messages from your wiser self
+• Regret Simulator - Know before you send that text you'll regret
+• Secrets Vault - Biometric-locked encrypted journal with annual Burn Day
+• Zero Cloud - No servers. No uploads. Complete privacy.
+
+This is not therapy. This is not meditation. This is a mirror.
+
+Privacy Policy URL: https://innermirror.app/privacy
+
+Category: Health & Fitness
+
+Content Rating: Mature 17+ (Strong Language, Mature Themes)
+
+Screenshots Required:
+- Phone: 16:9 or 9:16 aspect ratio, min 320px, max 3840px
+- Tablet: 16:9 or 9:16 aspect ratio
+- Feature Graphic: 1024x500 PNG
+
+Feature Graphic:
+- Black background
+- App name: InnerMirror
+- Tagline: "You can hide from everyone. You can't hide from you."
+- Minimal cracked mirror icon
+
+App Icon:
+- 512x512 PNG
+- Pure black square (#000000)
+- Tiny white cracked mirror icon in center
+
