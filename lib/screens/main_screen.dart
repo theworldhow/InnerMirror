@@ -20,6 +20,7 @@ import '../providers/memory_provider.dart';
 import '../services/model_download_service.dart';
 import '../services/device_info_service.dart';
 import '../services/soul_model_service.dart';
+import '../utils/screenshot_mode.dart';
 
 final pageControllerProvider = StateProvider<PageController>((ref) {
   final controller = PageController();
@@ -256,8 +257,8 @@ class _MainScreenState extends ConsumerState<MainScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
-                // Debug button (only in debug mode) - positioned above indicators
-                if (kDebugMode)
+                // Debug button (only in debug mode, hidden in screenshot mode) - positioned above indicators
+                if (kDebugMode && !ScreenshotMode.enabled)
                   GestureDetector(
                     onTap: () {
                       Navigator.of(context).push(

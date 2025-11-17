@@ -10,6 +10,7 @@ import '../services/data_ingestion_service.dart';
 import '../services/mirror_generation_service.dart';
 import '../services/legacy_export_service.dart';
 import '../services/revenue_cat_service.dart';
+import '../utils/screenshot_mode.dart';
 
 class DebugScreen extends ConsumerStatefulWidget {
   const DebugScreen({super.key});
@@ -297,6 +298,47 @@ class _DebugScreenState extends ConsumerState<DebugScreen> {
                           fontWeight: FontWeight.w500,
                         ),
                       ),
+              ),
+            ),
+            const SizedBox(height: 16),
+            // Screenshot mode toggle
+            SizedBox(
+              width: double.infinity,
+              child: ElevatedButton(
+                onPressed: () {
+                  final wasEnabled = ScreenshotMode.enabled;
+                  if (wasEnabled) {
+                    ScreenshotMode.disable();
+                  } else {
+                    ScreenshotMode.enable();
+                  }
+                  setState(() {});
+                  
+                  // Show message
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text(
+                        ScreenshotMode.enabled 
+                          ? 'Screenshot Mode: ON\nGo back and swipe between cards to see sample content'
+                          : 'Screenshot Mode: OFF\nGo back to see normal content',
+                      ),
+                      duration: const Duration(seconds: 3),
+                      backgroundColor: ScreenshotMode.enabled ? Colors.orange : Colors.grey.shade800,
+                    ),
+                  );
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: ScreenshotMode.enabled ? Colors.orange : Colors.grey.shade800,
+                  foregroundColor: Colors.white,
+                  padding: const EdgeInsets.symmetric(vertical: 16),
+                ),
+                child: Text(
+                  ScreenshotMode.enabled ? 'Screenshot Mode: ON' : 'Screenshot Mode: OFF',
+                  style: const TextStyle(
+                    fontFamily: '.SF Pro Text',
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
               ),
             ),
             const SizedBox(height: 32),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../services/mirror_generation_service.dart';
+import '../../utils/screenshot_mode.dart';
 
 class GrowthCard extends ConsumerStatefulWidget {
   const GrowthCard({super.key});
@@ -36,6 +37,18 @@ class _GrowthCardState extends ConsumerState<GrowthCard> with SingleTickerProvid
   }
 
   Future<void> _loadContent() async {
+    // In screenshot mode, use sample content
+    if (ScreenshotMode.enabled) {
+      if (mounted) {
+        setState(() {
+          _content = ScreenshotMode.sampleContent['growth'];
+          _lastGenerated = DateTime.now().subtract(const Duration(hours: 2));
+        });
+        _fadeController.forward();
+      }
+      return;
+    }
+    
     final service = MirrorGenerationService.instance;
     final content = await service.getMirrorContent('growth');
     final lastGen = await service.getLastGeneratedTime('growth');
@@ -99,7 +112,7 @@ class _GrowthCardState extends ConsumerState<GrowthCard> with SingleTickerProvid
                     ? Column(
                         children: [
                           Text(
-                            _content!,
+                            ScreenshotMode.enabled ? ScreenshotMode.blurText(_content!) : _content!,
                             textAlign: TextAlign.center,
                             style: TextStyle(
                               fontSize: 18,

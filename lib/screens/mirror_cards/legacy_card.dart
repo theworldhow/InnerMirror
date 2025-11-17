@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../services/mirror_generation_service.dart';
 import '../../widgets/breathing_background.dart';
+import '../../utils/screenshot_mode.dart';
 
 class LegacyCard extends ConsumerStatefulWidget {
   const LegacyCard({super.key});
@@ -37,6 +38,18 @@ class _LegacyCardState extends ConsumerState<LegacyCard> with SingleTickerProvid
   }
 
   Future<void> _loadContent() async {
+    // In screenshot mode, use sample content
+    if (ScreenshotMode.enabled) {
+      if (mounted) {
+        setState(() {
+          _content = ScreenshotMode.sampleContent['legacy'];
+          _lastGenerated = DateTime.now().subtract(const Duration(hours: 2));
+        });
+        _fadeController.forward();
+      }
+      return;
+    }
+    
     final service = MirrorGenerationService.instance;
     final content = await service.getMirrorContent('legacy');
     final lastGen = await service.getLastGeneratedTime('legacy');
@@ -102,7 +115,7 @@ class _LegacyCardState extends ConsumerState<LegacyCard> with SingleTickerProvid
                     ? Column(
                         children: [
                           Text(
-                            _content!,
+                            ScreenshotMode.enabled ? ScreenshotMode.blurText(_content!) : _content!,
                             textAlign: TextAlign.center,
                             style: TextStyle(
                               fontSize: 18,
