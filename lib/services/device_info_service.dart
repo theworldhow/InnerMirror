@@ -33,6 +33,32 @@ class DeviceInfoService {
   }
 
   Future<bool> shouldUse8BModel() async {
+    // Default to smaller models - use 8B only for high-end devices
+    final memoryGB = await getTotalMemoryGB();
+    return memoryGB >= 8;
+  }
+
+  // Get recommended model size based on device
+  // Default to 3B model for better performance
+  Future<String> getRecommendedModelSize({bool prefer1B = false}) async {
+    // Default to 3B for better quality
+    final memoryGB = await getTotalMemoryGB();
+    if (memoryGB >= 8) {
+      return '8B'; // Best quality for high-end devices
+    } else if (memoryGB >= 4 || !prefer1B) {
+      return '3B'; // Balanced - default for better performance
+    } else {
+      return '1B'; // Smallest, for devices with limited RAM
+    }
+  }
+  
+  // Check if device can handle larger model
+  Future<bool> canUse3BModel() async {
+    final memoryGB = await getTotalMemoryGB();
+    return memoryGB >= 4;
+  }
+  
+  Future<bool> canUse8BModel() async {
     final memoryGB = await getTotalMemoryGB();
     return memoryGB >= 8;
   }

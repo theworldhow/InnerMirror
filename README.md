@@ -48,9 +48,9 @@ A minimal, luxurious journaling app with mirror cards for self-reflection. **The
 ### Technical Features
 - **State Management**: Riverpod 2.5+
 - **Background Tasks**: WorkManager (Android), BackgroundFetch (iOS)
-- **RevenueCat**: In-app purchases (Mirror Plus subscription, Legacy export)
 - **Model Download**: Automatic LLM model download on first launch
 - **100% On-device**: No servers, no uploads, all data stays on device
+- **Completely Free**: No accounts, no purchases, no subscriptions - all features available
 
 ## Project Structure
 
@@ -74,14 +74,14 @@ lib/
   │       ├── growth_card.dart     # Growth Mirror
   │       └── legacy_card.dart     # Legacy Mirror (with LLM)
   ├── services/
-  │   ├── soul_model_service.dart  # LLM model management (stubbed)
+  │   ├── soul_model_service.dart  # LLM model management (llama_cpp_dart with 3B model)
   │   ├── model_download_service.dart # Model download logic
   │   ├── secrets_vault_service.dart  # Secrets vault storage
   │   ├── data_ingestion_service.dart # Background data ingestion
   │   ├── background_task_service.dart # Background task scheduling
   │   ├── future_you_voice_service.dart # Future You message generation
   │   ├── mirror_generation_service.dart # Daily mirror generation
-  │   ├── revenue_cat_service.dart # In-app purchases
+  │   ├── legacy_export_service.dart # Legacy export functionality
   │   └── ... (other services)
   ├── providers/
   │   ├── soul_model_provider.dart # Model state provider
@@ -121,12 +121,6 @@ cd ios
 pod install
 cd ..
 ```
-
-4. **Configure RevenueCat** (optional)
-   - Update `lib/services/revenue_cat_service.dart` with your RevenueCat API key
-   - Configure products in RevenueCat dashboard:
-     - `mirror_plus`: Monthly subscription ($4.99)
-     - `legacy`: One-time purchase ($99.00)
 
 ### Permissions
 
@@ -186,13 +180,14 @@ See `BUILD_INSTRUCTIONS.md` for detailed build instructions.
 - Data ingestion services
 - Memory counter
 - Bottom navigation
-- RevenueCat integration
+- Legacy export functionality
 - Model download UI
 
-### 🔄 Stubbed (Ready for Implementation)
-- **On-device LLM Inference**: Currently using `mllama_stub.dart` for simulated responses
-  - Ready for `mllama_flutter` package integration when available
-  - Model download service is functional
+### ✅ On-Device LLM Inference
+- **llama_cpp_dart Integration**: Using `llama_cpp_dart` package (llama.cpp) with Llama 3.2 3B Instruct model (default)
+- **Model Support**: Supports 1B, 3B (default), and 8B models based on device capabilities
+- **CPU-Only Mode**: Optimized for mobile devices with CPU inference
+- **Model Download**: Automatic download on first launch
 - **Voice Cloning**: Future You voice uses `flutter_tts` (can be upgraded to Piper TTS)
 - **Embeddings**: Simplified JSONL storage (ready for Isar upgrade)
 - **LoRA Fine-tuning**: Service structure ready for PEFT implementation
@@ -214,7 +209,7 @@ Shake your device **twice quickly** (within 2 seconds) to open the debug screen.
 - Last 10 raw entries from `life_log.jsonl`
 - "Force ingest now" button
 - "Regenerate Mirrors Now" button
-- "Legacy Export" button ($99 paywall)
+- "Legacy Export" button (free, exports your soul model)
 
 ## Architecture
 
@@ -227,9 +222,18 @@ Shake your device **twice quickly** (within 2 seconds) to open the debug screen.
 - **Authentication**: LocalAuthentication for biometric auth
 - **Privacy**: 100% on-device, no cloud uploads
 
+## Testing
+
+After setting up llama.cpp, see [TESTING_LLAMA_CPP.md](TESTING_LLAMA_CPP.md) for detailed testing instructions.
+
+Quick test:
+```bash
+./scripts/test_llama_app.sh
+```
+
 ## Known Issues & Notes
 
-1. **LLM Inference**: Currently stubbed. Replace `mllama_stub.dart` with actual `mllama_flutter` package when available.
+1. **LLM Inference**: Using `llama_cpp_dart` package with Llama 3.2 3B Instruct model (default). Model downloads automatically on first launch. **Note:** llama_cpp_dart requires the llama.cpp native library to be compiled and linked. See [LLAMA_CPP_SETUP.md](LLAMA_CPP_SETUP.md) for setup instructions.
 
 2. **Biometric Auth**: Requires `NSFaceIDUsageDescription` in `Info.plist` for iOS (already configured).
 

@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../services/mirror_generation_service.dart';
 import '../../widgets/breathing_background.dart';
 import '../../utils/screenshot_mode.dart';
+import '../../providers/soul_model_provider.dart';
 
 class LegacyCard extends ConsumerStatefulWidget {
   const LegacyCard({super.key});
@@ -29,6 +30,19 @@ class _LegacyCardState extends ConsumerState<LegacyCard> with SingleTickerProvid
       curve: Curves.easeIn,
     );
     _loadContent();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    // Listen for mirror regeneration events and reload content
+    // Use listenManual since we're in didChangeDependencies, not build
+    ref.listenManual(mirrorRegeneratedProvider, (previous, next) {
+      if (previous != next && mounted) {
+        // Mirrors were regenerated, reload content
+        _loadContent();
+      }
+    });
   }
 
   @override
@@ -80,80 +94,90 @@ class _LegacyCardState extends ConsumerState<LegacyCard> with SingleTickerProvid
       isActive: _content == null && _lastGenerated == null,
       child: Container(
         color: Colors.black,
-        child: Center(
+        child: SafeArea(
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 32),
             child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                'LEGACY',
-                style: TextStyle(
-                  fontSize: 48,
-                  fontWeight: FontWeight.w300,
-                  letterSpacing: 8,
-                  color: Colors.white,
-                  fontFamily: '.SF Pro Display',
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                const SizedBox(height: 100),
+                Text(
+                  'LEGACY',
+                  style: TextStyle(
+                    fontSize: 48,
+                    fontWeight: FontWeight.w300,
+                    letterSpacing: 8,
+                    color: Colors.white,
+                    fontFamily: '.SF Pro Display',
+                  ),
                 ),
-              ),
-              const SizedBox(height: 48),
-              Text(
-                'What will remain when you\'re gone?',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.w300,
-                  color: Colors.grey.shade400,
-                  fontFamily: '.SF Pro Text',
-                  height: 1.6,
+                const SizedBox(height: 24),
+                Text(
+                  'What will remain when you\'re gone?',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.w300,
+                    color: Colors.grey.shade400,
+                    fontFamily: '.SF Pro Text',
+                    height: 1.6,
+                  ),
                 ),
-              ),
-              const SizedBox(height: 48),
-              FadeTransition(
-                opacity: _fadeAnimation,
-                child: _content != null
-                    ? Column(
-                        children: [
-                          Text(
-                            ScreenshotMode.enabled ? ScreenshotMode.blurText(_content!) : _content!,
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.w400,
-                              color: Colors.grey.shade200,
-                              fontFamily: '.SF Pro Text',
-                              height: 1.8,
-                              letterSpacing: 0.3,
+                const SizedBox(height: 24),
+                Expanded(
+                  child: FadeTransition(
+                    opacity: _fadeAnimation,
+                    child: _content != null
+                        ? SingleChildScrollView(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                SelectableText(
+                                  ScreenshotMode.enabled ? ScreenshotMode.blurText(_content!) : _content!,
+                                  textAlign: TextAlign.left,
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w400,
+                                    color: Colors.grey.shade200,
+                                    fontFamily: '.SF Pro Text',
+                                    height: 1.6,
+                                    letterSpacing: 0.2,
+                                  ),
+                                ),
+                                if (_lastGenerated != null) ...[
+                                  const SizedBox(height: 24),
+                                  Text(
+                                    'Updated ${_formatTimeAgo(_lastGenerated)}',
+                                    style: TextStyle(
+                                      fontSize: 11,
+                                      fontWeight: FontWeight.w300,
+                                      color: Colors.grey.shade600,
+                                      fontFamily: '.SF Pro Text',
+                                      fontStyle: FontStyle.italic,
+                                    ),
+                                  ),
+                                ],
+                                const SizedBox(height: 48),
+                              ],
                             ),
-                          ),
-                          if (_lastGenerated != null) ...[
-                            const SizedBox(height: 24),
-                            Text(
-                              'Updated ${_formatTimeAgo(_lastGenerated)}',
+                          )
+                        : Center(
+                            child: Text(
+                              'Your impact extends beyond your presence. The choices you make, the love you give, the truth you live—these are the echoes that will outlast you.',
+                              textAlign: TextAlign.center,
                               style: TextStyle(
-                                fontSize: 11,
+                                fontSize: 16,
                                 fontWeight: FontWeight.w300,
                                 color: Colors.grey.shade600,
                                 fontFamily: '.SF Pro Text',
-                                fontStyle: FontStyle.italic,
+                                height: 1.8,
                               ),
                             ),
-                          ],
-                        ],
-                      )
-                    : Text(
-                        'Your impact extends beyond your presence. The choices you make, the love you give, the truth you live—these are the echoes that will outlast you.',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w300,
-                          color: Colors.grey.shade600,
-                          fontFamily: '.SF Pro Text',
-                          height: 1.8,
-                        ),
-                      ),
-              ),
-            ],
+                          ),
+                  ),
+                ),
+              ],
             ),
           ),
         ),

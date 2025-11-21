@@ -6,7 +6,7 @@ import 'package:shake/shake.dart';
 import '../widgets/page_indicator.dart';
 import '../widgets/floating_add_button.dart';
 import 'journal_screen.dart';
-import 'model_download_screen.dart';
+// ModelDownloadScreen removed - no longer using LLM
 import 'debug_screen.dart';
 import 'secrets_vault_screen.dart';
 import 'future_you_messages_screen.dart';
@@ -17,7 +17,7 @@ import 'mirror_cards/growth_card.dart';
 import 'mirror_cards/legacy_card.dart';
 import '../providers/soul_model_provider.dart';
 import '../providers/memory_provider.dart';
-import '../services/model_download_service.dart';
+// ModelDownloadService removed - no longer using LLM
 import '../services/device_info_service.dart';
 import '../services/soul_model_service.dart';
 import '../utils/screenshot_mode.dart';
@@ -43,7 +43,6 @@ class _MainScreenState extends ConsumerState<MainScreen> {
   int _shakeCount = 0;
   DateTime? _lastShake;
   int _currentTab = 0;
-  int _debugTapCount = 0; // For triple-tap to open debug screen (simulator workaround)
 
   @override
   void initState() {
@@ -66,9 +65,10 @@ class _MainScreenState extends ConsumerState<MainScreen> {
     // ensure all UI operations happen on the main thread
     try {
       _shakeDetector = ShakeDetector.autoStart(
-        onPhoneShake: () {
+        onPhoneShake: (ShakeEvent event) {
           // Ensure we're on the main thread for all UI operations
           // This prevents crashes from platform channel thread violations
+          // Shake package 3.0.0+ requires ShakeEvent parameter
           if (!mounted) return;
           
           // Schedule on main thread
@@ -118,35 +118,17 @@ class _MainScreenState extends ConsumerState<MainScreen> {
     if (_checkedModel) return;
     _checkedModel = true;
 
-    final deviceInfo = ref.read(deviceInfoServiceProvider);
-    final downloadService = ref.read(modelDownloadServiceProvider);
-    final use8B = await deviceInfo.shouldUse8BModel();
-    final modelExists = await downloadService.modelExists(use8B: use8B);
-
-    if (!modelExists && mounted) {
-      final result = await Navigator.of(context).push<bool>(
-        MaterialPageRoute(
-          builder: (context) => const ModelDownloadScreen(),
-          fullscreenDialog: true,
-        ),
-      );
-
-      if (result == true && mounted) {
-        // Model downloaded, initialize it
-        final modelService = ref.read(soulModelServiceProvider);
-        await modelService.initialize(use8B: use8B);
+    // No model download needed - using NLP now
+    final modelService = ref.read(soulModelServiceProvider);
+    
+    // Always ready - just initialize the stub service
+    if (modelService.state == ModelState.notInitialized) {
+      await modelService.initialize();
+      if (mounted) {
         ref.read(modelStateProvider.notifier).state = modelService.state;
       }
-    } else if (modelExists) {
-      // Model exists, initialize it in background
-      final modelService = ref.read(soulModelServiceProvider);
-      if (modelService.state == ModelState.notInitialized) {
-        modelService.initialize(use8B: use8B).then((_) {
-          if (mounted) {
-            ref.read(modelStateProvider.notifier).state = modelService.state;
-          }
-        });
-      }
+    } else if (modelService.isReady) {
+      ref.read(modelStateProvider.notifier).state = modelService.state;
     }
   }
 
@@ -156,7 +138,16 @@ class _MainScreenState extends ConsumerState<MainScreen> {
         builder: (context) => const JournalScreen(),
         fullscreenDialog: true,
       ),
-    );
+    ).then((_) {
+      // Reset to first page and update indicator when returning from Journal
+      if (mounted) {
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          if (mounted) {
+            _resetToFirstPage();
+          }
+        });
+      }
+    });
   }
 
   void _onPageChanged(int page) {
@@ -165,13 +156,54 @@ class _MainScreenState extends ConsumerState<MainScreen> {
     HapticFeedback.selectionClick();
   }
 
+  void _resetToFirstPage() {
+    // Immediately update indicator to show first dot - this happens instantly
+    ref.read(currentPageProvider.notifier).state = 0;
+    
+    // Then reset PageView after a frame
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
+      
+      final pageController = ref.read(pageControllerProvider);
+      if (!pageController.hasClients) {
+        // If not ready, wait and try again
+        Future.delayed(const Duration(milliseconds: 50), () {
+          if (mounted) {
+            final controller = ref.read(pageControllerProvider);
+            if (controller.hasClients) {
+              controller.jumpToPage(0);
+              // Double-check indicator is set
+              ref.read(currentPageProvider.notifier).state = 0;
+            }
+          }
+        });
+        return;
+      }
+      
+      // PageController is ready - reset immediately
+      if (pageController.page?.round() != 0) {
+        pageController.jumpToPage(0);
+      }
+      // Ensure indicator is set (jumpToPage doesn't trigger onPageChanged)
+      ref.read(currentPageProvider.notifier).state = 0;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     if (_currentTab == 1) {
       return SecretsVaultScreen(
         onBack: () {
+          // Reset indicator FIRST, before state change
+          ref.read(currentPageProvider.notifier).state = 0;
+          
           setState(() {
             _currentTab = 0;
+          });
+          
+          // Then reset PageView after rebuild
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            _resetToFirstPage();
           });
         },
       );
@@ -179,8 +211,16 @@ class _MainScreenState extends ConsumerState<MainScreen> {
     if (_currentTab == 2) {
       return FutureYouMessagesScreen(
         onBack: () {
+          // Reset indicator FIRST, before state change
+          ref.read(currentPageProvider.notifier).state = 0;
+          
           setState(() {
             _currentTab = 0;
+          });
+          
+          // Then reset PageView after rebuild
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            _resetToFirstPage();
           });
         },
       );
@@ -204,62 +244,37 @@ class _MainScreenState extends ConsumerState<MainScreen> {
               LegacyCard(),
             ],
           ),
-          // Top-left branding with debug access
+          // Top-center soul awake status
           Positioned(
             top: 48,
-            left: 24,
-            child: GestureDetector(
-              onLongPress: () {
-                // Long press to open debug screen (works reliably in simulator)
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context) => const DebugScreen(),
-                    fullscreenDialog: true,
-                  ),
-                );
-              },
-              onTap: () {
-                // Triple tap to open debug screen (alternative method)
-                _debugTapCount++;
-                if (_debugTapCount >= 3) {
-                  _debugTapCount = 0;
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (context) => const DebugScreen(),
-                      fullscreenDialog: true,
-                    ),
-                  );
-                } else {
-                  // Reset counter after 2 seconds
-                  Future.delayed(const Duration(seconds: 2), () {
-                    if (mounted) {
-                      _debugTapCount = 0;
-                    }
-                  });
-                }
-              },
-              child: Text(
-                'INNERMIRROR',
-                style: TextStyle(
-                  fontSize: 10,
-                  fontWeight: FontWeight.w600,
-                  letterSpacing: 1.5,
-                  color: const Color(0xFF666666),
-                  fontFamily: '.SF Pro Text',
-                ),
+            left: 0,
+            right: 0,
+            child: Center(
+              child: Consumer(
+                builder: (context, ref, child) {
+                  final modelService = ref.watch(soulModelServiceProvider);
+                  if (modelService.isReady) {
+                    return Text(
+                      'Soul awake',
+                      style: TextStyle(
+                        fontSize: 10,
+                        fontWeight: FontWeight.w400,
+                        color: Colors.grey.shade500,
+                        fontFamily: '.SF Pro Text',
+                      ),
+                    );
+                  }
+                  return const SizedBox.shrink();
+                },
               ),
             ),
           ),
-          // Top-right indicators
+          // Top-right debug button (only in debug mode, hidden in screenshot mode)
           Positioned(
             top: 48,
             right: 24,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                // Debug button (only in debug mode, hidden in screenshot mode) - positioned above indicators
-                if (kDebugMode && !ScreenshotMode.enabled)
-                  GestureDetector(
+            child: kDebugMode && !ScreenshotMode.enabled
+                ? GestureDetector(
                     onTap: () {
                       Navigator.of(context).push(
                         MaterialPageRoute(
@@ -269,7 +284,6 @@ class _MainScreenState extends ConsumerState<MainScreen> {
                       );
                     },
                     child: Container(
-                      margin: const EdgeInsets.only(bottom: 8),
                       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                       decoration: BoxDecoration(
                         color: Colors.grey[800],
@@ -286,48 +300,8 @@ class _MainScreenState extends ConsumerState<MainScreen> {
                         ),
                       ),
                     ),
-                  ),
-                Consumer(
-                  builder: (context, ref, child) {
-                    final modelService = ref.watch(soulModelServiceProvider);
-                    if (modelService.isReady) {
-                      return Text(
-                        'Soul awake ✓',
-                        style: TextStyle(
-                          fontSize: 10,
-                          fontWeight: FontWeight.w400,
-                          color: Colors.grey.shade500,
-                          fontFamily: '.SF Pro Text',
-                        ),
-                      );
-                    }
-                    return const SizedBox.shrink();
-                  },
-                ),
-                const SizedBox(height: 4),
-                Consumer(
-                  builder: (context, ref, child) {
-                    final momentsAsync = ref.watch(totalMomentsProvider);
-                    return momentsAsync.when(
-                      data: (count) => Text(
-                        'Memory: ${count.toString().replaceAllMapped(
-                          RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'),
-                          (Match m) => '${m[1]},',
-                        )} moments',
-                        style: TextStyle(
-                          fontSize: 10,
-                          fontWeight: FontWeight.w400,
-                          color: Colors.grey.shade600,
-                          fontFamily: '.SF Pro Text',
-                        ),
-                      ),
-                      loading: () => const SizedBox.shrink(),
-                      error: (_, __) => const SizedBox.shrink(),
-                    );
-                  },
-                ),
-              ],
-            ),
+                  )
+                : const SizedBox.shrink(),
           ),
           // Centered tagline
           Positioned(
@@ -339,7 +313,7 @@ class _MainScreenState extends ConsumerState<MainScreen> {
                 "You can't hide from you.",
                 style: TextStyle(
                   fontSize: 16,
-                  fontStyle: FontStyle.italic,
+                  fontStyle: FontStyle.normal,
                   color: Colors.grey.shade400,
                   fontWeight: FontWeight.w300,
                   fontFamily: '.SF Pro Text',
@@ -347,9 +321,9 @@ class _MainScreenState extends ConsumerState<MainScreen> {
               ),
             ),
           ),
-          // Page indicator at bottom
+          // Page indicator between tagline and mirror card title
           Positioned(
-            bottom: 100,
+            top: 120,
             left: 0,
             right: 0,
             child: PageIndicator(
@@ -372,15 +346,17 @@ class _MainScreenState extends ConsumerState<MainScreen> {
         onTap: (index) {
           if (index == 0 && _currentTab == 0) {
             // If already on Mirrors tab, reset to first mirror card
-            pageController.animateToPage(
-              0,
-              duration: const Duration(milliseconds: 300),
-              curve: Curves.easeInOut,
-            );
+            _resetToFirstPage();
           } else {
             setState(() {
               _currentTab = index;
             });
+            // When switching back to Mirrors tab, reset to first page
+            if (index == 0) {
+              WidgetsBinding.instance.addPostFrameCallback((_) {
+                _resetToFirstPage();
+              });
+            }
           }
         },
         backgroundColor: Colors.black,

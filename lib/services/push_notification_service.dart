@@ -1,6 +1,5 @@
 import 'package:shared_preferences/shared_preferences.dart';
 import 'life_log_service.dart';
-import 'soul_model_service.dart';
 
 class PushNotificationService {
   static PushNotificationService? _instance;
@@ -9,7 +8,6 @@ class PushNotificationService {
   PushNotificationService._();
   
   final LifeLogService _lifeLog = LifeLogService.instance;
-  final SoulModelService _soulModel = SoulModelService.instance;
 
   Future<void> sendDailyNotification() async {
     try {
@@ -32,32 +30,26 @@ class PushNotificationService {
   }
 
   Future<String> _generateOneThing() async {
-    if (_soulModel.state != ModelState.ready) {
-      return '';
+    // Using simple NLP instead of LLM
+    final recentEntries = await _lifeLog.getRecentEntries(count: 10);
+    if (recentEntries.isEmpty) {
+      return 'Start journaling today.';
     }
-
-    final lifeLogContent = await _lifeLog.getLifeLogContent();
     
-    final prompt = """Generate a maximum 12-word notification that tells me one thing I need to do today based on my life_log.jsonl.
-
-Be specific and use real data. Examples:
-- "Call Mom. You haven't said I love you in 41 days."
-- "Write. You create best at coffee shops."
-- "Sleep. Your HRV dropped 30% this week."
-
-Output ONLY the notification text, nothing else.
-
-Here is my life_log.jsonl:
-$lifeLogContent""";
-
-    try {
-      final response = await _soulModel.generateResponse(prompt);
-      // Trim to 12 words max
-      final words = response.trim().split(RegExp(r'\s+'));
-      return words.take(12).join(' ');
-    } catch (e) {
-      return '';
+    // Generate simple notification based on recent patterns
+    final activities = <String, int>{};
+    for (final entry in recentEntries) {
+      final type = entry['type'] as String? ?? 'unknown';
+      activities[type] = (activities[type] ?? 0) + 1;
     }
+    
+    if (activities.isEmpty) {
+      return 'Reflect on your day.';
+    }
+    
+    // Suggest most common activity
+    final topActivity = activities.entries.reduce((a, b) => a.value > b.value ? a : b);
+    return 'Continue focusing on ${topActivity.key}.';
   }
 
   Future<String?> getDailyNotification() async {

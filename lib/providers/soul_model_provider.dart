@@ -1,15 +1,13 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../services/soul_model_service.dart';
-import '../services/model_download_service.dart';
 import '../services/device_info_service.dart';
+import '../services/mirror_generation_service.dart';
 
 final deviceInfoServiceProvider = Provider<DeviceInfoService>((ref) {
   return DeviceInfoService();
 });
 
-final modelDownloadServiceProvider = Provider<ModelDownloadService>((ref) {
-  return ModelDownloadService();
-});
+// ModelDownloadService removed - no longer using LLM
 
 final soulModelServiceProvider = Provider<SoulModelService>((ref) {
   final service = SoulModelService.instance;
@@ -33,21 +31,20 @@ final shouldUse8BModelProvider = FutureProvider<bool>((ref) async {
 });
 
 final modelInitializedProvider = FutureProvider<bool>((ref) async {
-  final use8B = await ref.watch(shouldUse8BModelProvider.future);
-  final downloadService = ref.watch(modelDownloadServiceProvider);
+  // Always ready now - using NLP instead of LLM
+  // No model download or initialization needed
   final modelService = ref.watch(soulModelServiceProvider);
   
-  final exists = await downloadService.modelExists(use8B: use8B);
-  
-  if (!exists) {
-    return false;
-  }
-
+  // Initialize (stub - always succeeds)
   if (modelService.state == ModelState.notInitialized) {
-    await modelService.initialize(use8B: use8B);
+    await modelService.initialize();
     ref.read(modelStateProvider.notifier).state = modelService.state;
   }
 
   return modelService.state == ModelState.ready;
 });
+
+// Provider to notify mirror cards when mirrors are regenerated
+// The callback is set up in main.dart
+final mirrorRegeneratedProvider = StateProvider<int>((ref) => 0);
 

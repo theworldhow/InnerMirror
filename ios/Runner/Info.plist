@@ -44,8 +44,21 @@
 	<string>This app needs access to your photos to understand your life patterns.</string>
 	<key>NSSpeechRecognitionUsageDescription</key>
 	<string>This app needs speech recognition to convert your voice to text.</string>
+	<key>NSContactsUsageDescription</key>
+	<string>This app needs access to contacts to identify message senders.</string>
+	<key>NSCalendarsUsageDescription</key>
+	<string>This app needs access to your calendar to understand your schedule and recurring patterns.</string>
+	<key>NSRemindersUsageDescription</key>
+	<string>This app needs access to reminders to understand your task patterns and priorities.</string>
+	<key>NSUserNotificationsUsageDescription</key>
+	<string>This app needs notification access to capture WhatsApp and Messages for analysis.</string>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
+	<key>BGTaskSchedulerPermittedIdentifiers</key>
+	<array>
+		<string>com.ashokin2film.innermirror.fetch</string>
+		<string>com.ashokin2film.innermirror.processing</string>
+	</array>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>fetch</string>

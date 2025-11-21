@@ -3,6 +3,8 @@ import 'package:local_auth/local_auth.dart';
 import '../services/secrets_vault_service.dart';
 import '../services/future_you_voice_service.dart';
 import '../services/soul_model_service.dart';
+import '../services/simple_nlp_service.dart';
+import '../services/life_log_service.dart';
 import 'future_you_voice_screen.dart';
 
 class SecretsVaultScreen extends StatefulWidget {
@@ -278,9 +280,11 @@ class _SecretsVaultScreenState extends State<SecretsVaultScreen> {
       final secretsText = secrets.map((s) => s.content).join('\n\n');
       
       final voiceService = FutureYouVoiceService.instance;
-      final soulModel = SoulModelService.instance;
+      final nlpService = SimpleNLPService.instance;
+      final lifeLogService = LifeLogService.instance;
       
-      if (soulModel.state == ModelState.ready && mounted) {
+      // Always ready now - using NLP
+      if (mounted) {
         try {
           final prompt = """You are Future You from 2035. Read these secrets slowly, calmly, non-judgmentally. 
 
@@ -291,7 +295,11 @@ $secretsText
 
 Generate a calm, forgiving voice message reading these secrets with compassion. Start with 'Hey 2025 me —' and end with 'Trust the muscle memory.'""";
           
-          final text = await soulModel.generateResponse(prompt);
+          final lifeLogContent = await lifeLogService.getLifeLogContent();
+          final text = await nlpService.generateResponse(
+            prompt: prompt,
+            lifeLogContent: lifeLogContent,
+          );
           
           // Create a temporary message for the burn day reading
           final message = FutureYouVoiceMessage(
@@ -359,6 +367,31 @@ Generate a calm, forgiving voice message reading these secrets with compassion. 
     if (!_isUnlocked) {
       return Scaffold(
         backgroundColor: Colors.black,
+        appBar: AppBar(
+          backgroundColor: Colors.black,
+          leading: IconButton(
+            icon: const Icon(Icons.arrow_back, color: Colors.white),
+            onPressed: () {
+              // Navigate back to home
+              if (widget.onBack != null) {
+                widget.onBack!();
+              } else {
+                // Fallback: try to pop if we're in a route
+                if (Navigator.of(context).canPop()) {
+                  Navigator.of(context).pop();
+                }
+              }
+            },
+          ),
+          title: const Text(
+            'Secrets Vault',
+            style: TextStyle(
+              color: Colors.white,
+              fontWeight: FontWeight.w300,
+              fontFamily: '.SF Pro Text',
+            ),
+          ),
+        ),
         body: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,

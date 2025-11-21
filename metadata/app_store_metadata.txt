@@ -12,6 +12,8 @@ InnerMirror is a completely private, on-device AI companion that learns from you
 
 FEATURES:
 • 5 Brutally Honest Mirrors - Truth, Strength, Shadow, Growth, Legacy
+• Holistic Self-Reflection - Analyzes health, activity, and life patterns together
+• Health Pattern Analysis - Physical activity and wellness insights integrated into reflections
 • 100% On-Device AI - Your data never leaves your phone. Ever.
 • Personal Soul Model - Fine-tuned nightly to sound exactly like you
 • Future You 2035 - Weekly voice messages from your wiser self
@@ -22,7 +24,7 @@ FEATURES:
 This is not therapy. This is not meditation. This is a mirror.
 
 Keywords:
-privacy,on-device,AI,personal,reflection,self-awareness,private,local,secure,encrypted,biometric,voice,journal,diary,mental-health,wellness,self-improvement,authentic,truth,shadow-work
+privacy,on-device,AI,personal,reflection,self-awareness,private,local,secure,encrypted,biometric,voice,journal,diary,mental-health,wellness,self-improvement,authentic,truth,shadow-work,health,fitness,activity,physical-mental-connection,holistic-wellness
 
 Promotional Text:
 100% on-device. No servers. No uploads. Your data never leaves your phone. Not even we can see it. Complete privacy. Complete honesty.

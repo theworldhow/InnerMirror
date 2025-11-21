@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:receive_sharing_intent/receive_sharing_intent.dart';
+// Note: receive_sharing_intent not currently used - placeholder for future share extension feature
+// import 'package:receive_sharing_intent/receive_sharing_intent.dart';
 import '../widgets/regret_simulator_overlay.dart';
 import 'regret_simulator_service.dart';
 

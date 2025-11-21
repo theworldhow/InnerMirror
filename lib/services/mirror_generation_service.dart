@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'life_log_service.dart';
-import 'soul_model_service.dart';
+import 'simple_nlp_service.dart';
 import 'embedding_service.dart';
 
 class MirrorContent {
@@ -41,9 +41,12 @@ class MirrorGenerationService {
   MirrorGenerationService._();
   
   File? _mirrorsFile;
-  final SoulModelService _soulModel = SoulModelService.instance;
+  final SimpleNLPService _nlpService = SimpleNLPService.instance;
   final LifeLogService _lifeLog = LifeLogService.instance;
   final EmbeddingService _embedding = EmbeddingService.instance;
+  
+  // Callback to notify when mirrors are regenerated (set from outside via provider)
+  void Function()? onMirrorsRegenerated;
 
   Future<File> get mirrorsFile async {
     if (_mirrorsFile != null) return _mirrorsFile!;
@@ -56,26 +59,28 @@ class MirrorGenerationService {
     return _mirrorsFile!;
   }
 
-  Future<void> generateAllMirrors() async {
-    // Rate limiting: only generate once per day
+  Future<void> generateAllMirrors({bool force = false}) async {
+    // Rate limiting: only generate once per day (unless forced for first-time install)
     final prefs = await SharedPreferences.getInstance();
     final lastGeneration = prefs.getInt('last_mirror_generation');
     final now = DateTime.now();
     
-    if (lastGeneration != null) {
+    if (!force && lastGeneration != null) {
       final lastGenTime = DateTime.fromMillisecondsSinceEpoch(lastGeneration);
       if (now.difference(lastGenTime).inHours < 24) {
         // Already generated today
+        print('[MirrorGenerationService] Already generated today, skipping (use force: true to override)');
         return;
       }
     }
 
-    if (_soulModel.state != ModelState.ready) {
-      // Try to initialize model if needed
-      return;
-    }
-
+    print('[MirrorGenerationService] Starting mirror generation with NLP...');
     final lifeLogContent = await _lifeLog.getLifeLogContent();
+    
+    if (lifeLogContent.trim().isEmpty) {
+      print('[MirrorGenerationService] Warning: life log is empty, mirrors may not be meaningful');
+      // Generate placeholder mirrors even if empty
+    }
     
     // Generate each mirror
     await _generateTruthMirror(lifeLogContent);
@@ -86,6 +91,12 @@ class MirrorGenerationService {
     
     // Save generation time
     await prefs.setInt('last_mirror_generation', now.millisecondsSinceEpoch);
+    
+    print('[MirrorGenerationService] Mirror generation complete');
+    print('[MirrorGenerationService] Generated mirrors for: truth, strength, shadow, growth, legacy');
+    
+    // Notify listeners that mirrors have been regenerated
+    onMirrorsRegenerated?.call();
   }
 
   Future<void> _generateTruthMirror(String lifeLogContent) async {
@@ -104,7 +115,10 @@ Here is my life_log.jsonl:
 $lifeLogContent""";
 
     try {
-      final response = await _soulModel.generateResponse(prompt);
+      final response = await _nlpService.generateResponse(
+        prompt: prompt,
+        lifeLogContent: lifeLogContent,
+      );
       await _saveMirrorContent('truth', response);
     } catch (e) {
       print('Error generating Truth mirror: $e');
@@ -125,7 +139,10 @@ Here is my life_log.jsonl:
 $lifeLogContent""";
 
     try {
-      final response = await _soulModel.generateResponse(prompt);
+      final response = await _nlpService.generateResponse(
+        prompt: prompt,
+        lifeLogContent: lifeLogContent,
+      );
       await _saveMirrorContent('strength', response);
     } catch (e) {
       print('Error generating Strength mirror: $e');
@@ -146,7 +163,10 @@ Here is my life_log.jsonl:
 $lifeLogContent""";
 
     try {
-      final response = await _soulModel.generateResponse(prompt);
+      final response = await _nlpService.generateResponse(
+        prompt: prompt,
+        lifeLogContent: lifeLogContent,
+      );
       await _saveMirrorContent('shadow', response);
     } catch (e) {
       print('Error generating Shadow mirror: $e');
@@ -165,7 +185,10 @@ Here is my life_log.jsonl:
 $lifeLogContent""";
 
     try {
-      final response = await _soulModel.generateResponse(prompt);
+      final response = await _nlpService.generateResponse(
+        prompt: prompt,
+        lifeLogContent: lifeLogContent,
+      );
       await _saveMirrorContent('growth', response);
     } catch (e) {
       print('Error generating Growth mirror: $e');
@@ -183,7 +206,10 @@ Here is my life_log.jsonl:
 $lifeLogContent""";
 
     try {
-      final response = await _soulModel.generateResponse(prompt);
+      final response = await _nlpService.generateResponse(
+        prompt: prompt,
+        lifeLogContent: lifeLogContent,
+      );
       await _saveMirrorContent('legacy', response);
     } catch (e) {
       print('Error generating Legacy mirror: $e');

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:just_audio/just_audio.dart' as just_audio;
-import 'package:audio_waveforms/audio_waveforms.dart';
+import 'package:flutter_tts/flutter_tts.dart';
 import '../services/future_you_voice_service.dart';
 
 class FutureYouVoiceScreen extends StatefulWidget {
@@ -16,62 +15,77 @@ class FutureYouVoiceScreen extends StatefulWidget {
 }
 
 class _FutureYouVoiceScreenState extends State<FutureYouVoiceScreen> {
-  late just_audio.AudioPlayer _audioPlayer;
+  FlutterTts _flutterTts = FlutterTts();
   bool _isPlaying = false;
   bool _isLoading = true;
-  PlayerController? _waveformController;
+  bool _isInitialized = false;
 
   @override
   void initState() {
     super.initState();
-    _audioPlayer = just_audio.AudioPlayer();
-    _initAudio();
+    _initTts();
   }
 
-  Future<void> _initAudio() async {
+  Future<void> _initTts() async {
     try {
-      // Initialize waveform
-      _waveformController = PlayerController();
-      await _waveformController!.preparePlayer(
-        path: widget.message.audioPath,
-        shouldExtractWaveform: true,
-      );
+      // Configure TTS for iOS/Android
+      await _flutterTts.setLanguage("en-US");
+      await _flutterTts.setSpeechRate(0.5); // Slower, more thoughtful pace
+      await _flutterTts.setVolume(1.0);
+      await _flutterTts.setPitch(0.9); // Slightly deeper voice
       
-      // Setup audio player
-      await _audioPlayer.setFilePath(widget.message.audioPath);
-      
-      _audioPlayer.playerStateStream.listen((state) {
+      // Set up completion handler
+      _flutterTts.setCompletionHandler(() {
         if (mounted) {
           setState(() {
-            _isPlaying = state.playing;
+            _isPlaying = false;
+          });
+        }
+      });
+      
+      // Set up error handler
+      _flutterTts.setErrorHandler((msg) {
+        if (mounted) {
+          setState(() {
+            _isPlaying = false;
+            _isLoading = false;
           });
         }
       });
       
       setState(() {
         _isLoading = false;
+        _isInitialized = true;
       });
     } catch (e) {
+      print('Error initializing TTS: $e');
       setState(() {
         _isLoading = false;
+        _isInitialized = false;
       });
     }
   }
 
   Future<void> _togglePlayback() async {
+    if (!_isInitialized) return;
+    
     if (_isPlaying) {
-      await _audioPlayer.pause();
-      await _waveformController?.pausePlayer();
+      await _flutterTts.stop();
+      setState(() {
+        _isPlaying = false;
+      });
     } else {
-      await _audioPlayer.play();
-      await _waveformController?.startPlayer();
+      setState(() {
+        _isPlaying = true;
+      });
+      await _flutterTts.speak(widget.message.text);
     }
   }
 
   @override
   void dispose() {
-    _audioPlayer.dispose();
-    _waveformController?.dispose();
+    _flutterTts.stop();
+    _flutterTts = FlutterTts();
     super.dispose();
   }
 
@@ -94,48 +108,48 @@ class _FutureYouVoiceScreenState extends State<FutureYouVoiceScreen> {
           ),
         ),
       ),
-      body: Center(
+      body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.all(48.0),
+          padding: const EdgeInsets.all(32.0),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              // Waveform placeholder (audio_waveforms API may vary by version)
-              if (_waveformController != null && !_isLoading)
-                Container(
-                  height: 200,
-                  width: MediaQuery.of(context).size.width - 96,
-                  decoration: BoxDecoration(
-                    border: Border.all(color: Colors.white.withOpacity(0.3)),
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: Center(
-                    child: Icon(
-                      Icons.graphic_eq,
-                      color: Colors.white.withOpacity(0.5),
-                      size: 48,
-                    ),
-                  ),
-                )
-              else
-                const SizedBox(
-                  height: 200,
-                  child: Center(
-                    child: CircularProgressIndicator(
-                      color: Colors.white,
-                    ),
-                  ),
+              const SizedBox(height: 32),
+              // Audio waveform placeholder
+              Container(
+                height: 200,
+                width: MediaQuery.of(context).size.width - 64,
+                decoration: BoxDecoration(
+                  border: Border.all(color: Colors.white.withOpacity(0.3)),
+                  borderRadius: BorderRadius.circular(8),
                 ),
-              const SizedBox(height: 48),
+                child: Center(
+                  child: _isLoading
+                      ? const CircularProgressIndicator(
+                          color: Colors.white,
+                        )
+                      : Icon(
+                          _isPlaying ? Icons.volume_up : Icons.graphic_eq,
+                          color: _isPlaying
+                              ? Colors.white
+                              : Colors.white.withOpacity(0.5),
+                          size: 48,
+                        ),
+                ),
+              ),
+              const SizedBox(height: 32),
               // Play button
               GestureDetector(
-                onTap: _isLoading ? null : _togglePlayback,
+                onTap: _isLoading || !_isInitialized ? null : _togglePlayback,
                 child: Container(
                   width: 80,
                   height: 80,
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    color: Colors.white,
+                    color: _isLoading || !_isInitialized
+                        ? Colors.white.withOpacity(0.5)
+                        : Colors.white,
                   ),
                   child: Icon(
                     _isPlaying ? Icons.pause : Icons.play_arrow,
@@ -144,17 +158,18 @@ class _FutureYouVoiceScreenState extends State<FutureYouVoiceScreen> {
                   ),
                 ),
               ),
-              const SizedBox(height: 48),
-              // Message text
-              Text(
+              const SizedBox(height: 32),
+              // Message text - now scrollable
+              SelectableText(
                 widget.message.text,
-                textAlign: TextAlign.center,
+                textAlign: TextAlign.left,
                 style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w300,
-                  color: Colors.grey.shade300,
+                  fontSize: 16,
+                  fontWeight: FontWeight.w400,
+                  color: Colors.grey.shade200,
                   fontFamily: '.SF Pro Text',
-                  height: 1.8,
+                  height: 1.6,
+                  letterSpacing: 0.2,
                 ),
               ),
               const SizedBox(height: 24),
@@ -167,6 +182,7 @@ class _FutureYouVoiceScreenState extends State<FutureYouVoiceScreen> {
                   fontFamily: '.SF Pro Text',
                 ),
               ),
+              const SizedBox(height: 48),
             ],
           ),
         ),

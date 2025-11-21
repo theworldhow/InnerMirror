@@ -3,9 +3,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'services/background_task_service.dart';
 import 'services/share_extension_service.dart';
+import 'services/mirror_generation_service.dart';
 import 'screens/main_screen.dart';
 import 'screens/onboarding_screen.dart';
 import 'screens/victory_screen.dart';
+import 'providers/soul_model_provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -26,6 +28,9 @@ void main() async {
     print('Share extension initialization error (non-critical): $e');
   }
   
+  // Setup mirror regeneration callback (will be set up once ProviderScope is available)
+  // This is done in the app widget after ProviderScope is created
+  
   runApp(
     const ProviderScope(
       child: InnerMirrorApp(),
@@ -33,14 +38,14 @@ void main() async {
   );
 }
 
-class InnerMirrorApp extends StatefulWidget {
+class InnerMirrorApp extends ConsumerStatefulWidget {
   const InnerMirrorApp({super.key});
 
   @override
-  State<InnerMirrorApp> createState() => _InnerMirrorAppState();
+  ConsumerState<InnerMirrorApp> createState() => _InnerMirrorAppState();
 }
 
-class _InnerMirrorAppState extends State<InnerMirrorApp> {
+class _InnerMirrorAppState extends ConsumerState<InnerMirrorApp> {
   Widget _home = const Scaffold(
     backgroundColor: Colors.black,
     body: Center(
@@ -53,6 +58,16 @@ class _InnerMirrorAppState extends State<InnerMirrorApp> {
   @override
   void initState() {
     super.initState();
+    // Setup mirror regeneration callback
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final mirrorGen = MirrorGenerationService.instance;
+      // Access the provider to ensure callback is set up
+      ref.read(mirrorRegeneratedProvider);
+      // Set the callback to notify provider when mirrors are regenerated
+      mirrorGen.onMirrorsRegenerated = () {
+        ref.read(mirrorRegeneratedProvider.notifier).state++;
+      };
+    });
     _determineHome();
   }
 

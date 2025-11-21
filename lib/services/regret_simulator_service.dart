@@ -9,14 +9,7 @@ class RegretSimulatorService {
   final SoulModelService _soulModel = SoulModelService.instance;
 
   Future<RegretAnalysis> analyzeText(String text) async {
-    if (_soulModel.state != ModelState.ready) {
-      return RegretAnalysis(
-        regretChance: 0,
-        reason: 'Model not ready',
-        suggestedEdit: null,
-      );
-    }
-
+    // Simple NLP-based regret analysis - no LLM needed
     if (text.split(RegExp(r'\s+')).length <= 2) {
       return RegretAnalysis(
         regretChance: 0,
@@ -24,62 +17,37 @@ class RegretSimulatorService {
         suggestedEdit: null,
       );
     }
-
-    final prompt = """Analyze this message I'm about to send. Will I regret it in 72 hours?
-
-Message: "$text"
-
-Output EXACTLY in this format:
-REGRET_CHANCE: [0-100]%
-REASON: [one sentence explaining why]
-SUGGESTED_EDIT: [improved version or "send as is"]
-
-Be brutal. Be honest. Consider tone, timing, emotional state, relationship dynamics.""";
-
-    try {
-      final response = await _soulModel.generateResponse(prompt);
-      return _parseResponse(response, text);
-    } catch (e) {
-      return RegretAnalysis(
-        regretChance: 50,
-        reason: 'Analysis failed: $e',
-        suggestedEdit: null,
-      );
-    }
-  }
-
-  RegretAnalysis _parseResponse(String response, String originalText) {
-    int regretChance = 50;
-    String reason = 'Unable to analyze';
-    String? suggestedEdit;
-
-    try {
-      final lines = response.split('\n');
-      for (final line in lines) {
-        if (line.startsWith('REGRET_CHANCE:')) {
-          final match = RegExp(r'(\d+)%').firstMatch(line);
-          if (match != null) {
-            regretChance = int.parse(match.group(1)!);
-          }
-        } else if (line.startsWith('REASON:')) {
-          reason = line.substring(7).trim();
-        } else if (line.startsWith('SUGGESTED_EDIT:')) {
-          final edit = line.substring(15).trim();
-          if (edit.toLowerCase() != 'send as is') {
-            suggestedEdit = edit;
-          }
-        }
+    
+    // Simple pattern-based regret analysis
+    final regretIndicators = ['hate', 'stupid', 'idiot', 'never', 'always', 'you always', 'you never'];
+    final apologyIndicators = ['sorry', 'apologize', 'regret', 'mistake'];
+    
+    int regretScore = 0;
+    for (final indicator in regretIndicators) {
+      if (text.toLowerCase().contains(indicator)) {
+        regretScore += 15;
       }
-    } catch (e) {
-      // Fallback parsing
     }
-
+    
+    // Check for emotional intensity
+    final emotionalWords = text.split(RegExp(r'\s+')).where((word) => 
+      word.length > 5 && RegExp(r'[!?]{2,}').hasMatch(word)
+    ).length;
+    regretScore += emotionalWords * 10;
+    
+    final regretChance = regretScore.clamp(0, 100);
+    String reason = regretChance > 50 
+      ? 'High emotional intensity detected'
+      : 'Message seems reasonable';
+    
     return RegretAnalysis(
       regretChance: regretChance,
       reason: reason,
-      suggestedEdit: suggestedEdit,
+      suggestedEdit: regretChance > 70 ? 'Consider waiting before sending' : null,
     );
   }
+
+  // _parseResponse removed - using direct NLP analysis now
 }
 
 class RegretAnalysis {

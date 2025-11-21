@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">InnerMirror</string>
+    <string name="accessibility_service_description">InnerMirror needs accessibility permission to read WhatsApp messages for mirror analysis. This allows the app to automatically capture all your WhatsApp conversations.</string>
+</resources>
+

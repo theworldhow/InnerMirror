@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		10012B8126C2AB6E53063628 /* Pods_Runner.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE552C27B4D1D51E324EF409 /* Pods_Runner.framework */; };
 		1498D2341E8E89220040F4C2 /* GeneratedPluginRegistrant.m in Sources */ = {isa = PBXBuildFile; fileRef = 1498D2331E8E89220040F4C2 /* GeneratedPluginRegistrant.m */; };
 		331C808B294A63AB00263BE5 /* RunnerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 331C807B294A618700263BE5 /* RunnerTests.swift */; };
 		3B3967161E833CAA004F5970 /* AppFrameworkInfo.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3B3967151E833CAA004F5970 /* AppFrameworkInfo.plist */; };
@@ -15,6 +14,10 @@
 		97C146FC1CF9000F007C117D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FA1CF9000F007C117D /* Main.storyboard */; };
 		97C146FE1CF9000F007C117D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FD1CF9000F007C117D /* Assets.xcassets */; };
 		97C147011CF9000F007C117D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FF1CF9000F007C117D /* LaunchScreen.storyboard */; };
+		CEB2D06075171DEEF35D82D4 /* Pods_Runner.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 05D3A55D11625E329EEF2E65 /* Pods_Runner.framework */; };
+		F91BFB992ECE5DFE009B5CB3 /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F91BFB982ECE5DFE009B5CB3 /* Accelerate.framework */; };
+		F91BFB9B2ECE5E13009B5CB3 /* Metal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F91BFB9A2ECE5E13009B5CB3 /* Metal.framework */; };
+		F91BFB9D2ECE5E26009B5CB3 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F91BFB9C2ECE5E26009B5CB3 /* Foundation.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -41,16 +44,17 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		00D0D4909ABF98C1951E206A /* Pods-Runner.profile.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.profile.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.profile.xcconfig"; sourceTree = "<group>"; };
+		05D3A55D11625E329EEF2E65 /* Pods_Runner.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Runner.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		0BB9C39567B5FEE476BD72C5 /* Pods-Runner.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.debug.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.debug.xcconfig"; sourceTree = "<group>"; };
 		1498D2321E8E86230040F4C2 /* GeneratedPluginRegistrant.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GeneratedPluginRegistrant.h; sourceTree = "<group>"; };
 		1498D2331E8E89220040F4C2 /* GeneratedPluginRegistrant.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GeneratedPluginRegistrant.m; sourceTree = "<group>"; };
 		331C807B294A618700263BE5 /* RunnerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RunnerTests.swift; sourceTree = "<group>"; };
 		331C8081294A63A400263BE5 /* RunnerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RunnerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		3B3967151E833CAA004F5970 /* AppFrameworkInfo.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = AppFrameworkInfo.plist; path = Flutter/AppFrameworkInfo.plist; sourceTree = "<group>"; };
-		60862F6089E0145EA7299181 /* Pods-Runner.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.release.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.release.xcconfig"; sourceTree = "<group>"; };
 		74858FAD1ED2DC5600515810 /* Runner-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Runner-Bridging-Header.h"; sourceTree = "<group>"; };
 		74858FAE1ED2DC5600515810 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		7AFA3C8E1D35360C0083082E /* Release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = Release.xcconfig; path = Flutter/Release.xcconfig; sourceTree = "<group>"; };
+		8B44F510562B13769652745E /* Pods-Runner.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.release.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.release.xcconfig"; sourceTree = "<group>"; };
 		9740EEB21CF90195004384FC /* Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Debug.xcconfig; path = Flutter/Debug.xcconfig; sourceTree = "<group>"; };
 		9740EEB31CF90195004384FC /* Generated.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Generated.xcconfig; path = Flutter/Generated.xcconfig; sourceTree = "<group>"; };
 		97C146EE1CF9000F007C117D /* Runner.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Runner.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -58,9 +62,11 @@
 		97C146FD1CF9000F007C117D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		97C147001CF9000F007C117D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		97C147021CF9000F007C117D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		A4009254DE2CBB87E6C0F1EF /* Pods-Runner.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.debug.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.debug.xcconfig"; sourceTree = "<group>"; };
-		BE552C27B4D1D51E324EF409 /* Pods_Runner.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Runner.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		E0672A7D6BC7E59990E879F8 /* Pods-Runner.profile.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.profile.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.profile.xcconfig"; sourceTree = "<group>"; };
 		F90C6CA92EC80F9E008639CB /* Runner.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Runner.entitlements; sourceTree = "<group>"; };
+		F91BFB982ECE5DFE009B5CB3 /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
+		F91BFB9A2ECE5E13009B5CB3 /* Metal.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Metal.framework; path = System/Library/Frameworks/Metal.framework; sourceTree = SDKROOT; };
+		F91BFB9C2ECE5E26009B5CB3 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -68,7 +74,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				10012B8126C2AB6E53063628 /* Pods_Runner.framework in Frameworks */,
+				F91BFB992ECE5DFE009B5CB3 /* Accelerate.framework in Frameworks */,
+				F91BFB9D2ECE5E26009B5CB3 /* Foundation.framework in Frameworks */,
+				F91BFB9B2ECE5E13009B5CB3 /* Metal.framework in Frameworks */,
+				CEB2D06075171DEEF35D82D4 /* Pods_Runner.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -134,9 +143,9 @@
 		B45062A7C85F0E97C0BC03EB /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				A4009254DE2CBB87E6C0F1EF /* Pods-Runner.debug.xcconfig */,
-				60862F6089E0145EA7299181 /* Pods-Runner.release.xcconfig */,
-				00D0D4909ABF98C1951E206A /* Pods-Runner.profile.xcconfig */,
+				0BB9C39567B5FEE476BD72C5 /* Pods-Runner.debug.xcconfig */,
+				8B44F510562B13769652745E /* Pods-Runner.release.xcconfig */,
+				E0672A7D6BC7E59990E879F8 /* Pods-Runner.profile.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -144,7 +153,10 @@
 		F53BF1E9862C01C667175A69 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				BE552C27B4D1D51E324EF409 /* Pods_Runner.framework */,
+				F91BFB9C2ECE5E26009B5CB3 /* Foundation.framework */,
+				F91BFB9A2ECE5E13009B5CB3 /* Metal.framework */,
+				F91BFB982ECE5DFE009B5CB3 /* Accelerate.framework */,
+				05D3A55D11625E329EEF2E65 /* Pods_Runner.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -173,14 +185,14 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 97C147051CF9000F007C117D /* Build configuration list for PBXNativeTarget "Runner" */;
 			buildPhases = (
-				EE1EE891EEC1A95E8F36BC67 /* [CP] Check Pods Manifest.lock */,
+				749DCFD53FE5DCF70BDF746C /* [CP] Check Pods Manifest.lock */,
 				9740EEB61CF901F6004384FC /* Run Script */,
 				97C146EA1CF9000F007C117D /* Sources */,
 				97C146EB1CF9000F007C117D /* Frameworks */,
 				97C146EC1CF9000F007C117D /* Resources */,
 				9705A1C41CF9048500538489 /* Embed Frameworks */,
 				3B06AD1E1E4923F5004D2608 /* Thin Binary */,
-				9C847AE64D04413A8F6E55A3 /* [CP] Copy Pods Resources */,
+				07A07F9FBFABAED2BDD43E97 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -252,38 +264,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		3B06AD1E1E4923F5004D2608 /* Thin Binary */ = {
-			isa = PBXShellScriptBuildPhase;
-			alwaysOutOfDate = 1;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${TARGET_BUILD_DIR}/${INFOPLIST_PATH}",
-			);
-			name = "Thin Binary";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "/bin/sh \"$FLUTTER_ROOT/packages/flutter_tools/bin/xcode_backend.sh\" embed_and_thin";
-		};
-		9740EEB61CF901F6004384FC /* Run Script */ = {
-			isa = PBXShellScriptBuildPhase;
-			alwaysOutOfDate = 1;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Run Script";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "/bin/sh \"$FLUTTER_ROOT/packages/flutter_tools/bin/xcode_backend.sh\" build";
-		};
-		9C847AE64D04413A8F6E55A3 /* [CP] Copy Pods Resources */ = {
+		07A07F9FBFABAED2BDD43E97 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -300,7 +281,23 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Runner/Pods-Runner-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		EE1EE891EEC1A95E8F36BC67 /* [CP] Check Pods Manifest.lock */ = {
+		3B06AD1E1E4923F5004D2608 /* Thin Binary */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${TARGET_BUILD_DIR}/${INFOPLIST_PATH}",
+			);
+			name = "Thin Binary";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "/bin/sh \"$FLUTTER_ROOT/packages/flutter_tools/bin/xcode_backend.sh\" embed_and_thin";
+		};
+		749DCFD53FE5DCF70BDF746C /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -321,6 +318,21 @@
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
+		};
+		9740EEB61CF901F6004384FC /* Run Script */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Run Script";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "/bin/sh \"$FLUTTER_ROOT/packages/flutter_tools/bin/xcode_backend.sh\" build";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -438,16 +450,113 @@
 				CURRENT_PROJECT_VERSION = "$(FLUTTER_BUILD_NUMBER)";
 				DEVELOPMENT_TEAM = 25T89XKHQ6;
 				ENABLE_BITCODE = NO;
+				"HEADER_SEARCH_PATHS[arch=*]" = (
+					"$(inherited)",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/CwlCatchException/CwlCatchException.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/CwlCatchExceptionSupport/CwlCatchExceptionSupport.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/audio_session/audio_session.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/audio_waveforms/audio_waveforms.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/audioplayers_darwin/audioplayers_darwin.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/background_fetch/background_fetch.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/device_info_plus/device_info_plus.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/flutter_secure_storage/flutter_secure_storage.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/flutter_tts/flutter_tts.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/geolocator_apple/geolocator_apple.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/health/health.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/image_picker_ios/image_picker_ios.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/isar_flutter_libs/isar_flutter_libs.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/just_audio/just_audio.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/local_auth_darwin/local_auth_darwin.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/package_info_plus/package_info_plus.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/path_provider_foundation/path_provider_foundation.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/permission_handler_apple/permission_handler_apple.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/sensors_plus/sensors_plus.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/share_plus/share_plus.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/shared_preferences_foundation/shared_preferences_foundation.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/speech_to_text/speech_to_text.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/wakelock_plus/wakelock_plus.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/workmanager/workmanager.framework/Headers\"",
+					"\"${PODS_XCFRAMEWORKS_BUILD_DIR}/isar_flutter_libs/Headers\"",
+					"$(SRCROOT)/../llama.cpp/**",
+				);
 				INFOPLIST_FILE = Runner/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
+				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
+				"OTHER_LDFLAGS[arch=*]" = (
+					"$(inherited)",
+					"-ObjC",
+					"-l\"isar\"",
+					"-framework",
+					"\"CwlCatchException\"",
+					"-framework",
+					"\"CwlCatchExceptionSupport\"",
+					"-framework",
+					"\"StoreKit\"",
+					"-framework",
+					"\"TSBackgroundFetch\"",
+					"-framework",
+					"\"UIKit\"",
+					"-framework",
+					"\"audio_session\"",
+					"-framework",
+					"\"audio_waveforms\"",
+					"-framework",
+					"\"audioplayers_darwin\"",
+					"-framework",
+					"\"background_fetch\"",
+					"-framework",
+					"\"device_info_plus\"",
+					"-framework",
+					"\"flutter_secure_storage\"",
+					"-framework",
+					"\"flutter_tts\"",
+					"-framework",
+					"\"geolocator_apple\"",
+					"-framework",
+					"\"health\"",
+					"-framework",
+					"\"image_picker_ios\"",
+					"-framework",
+					"\"isar_flutter_libs\"",
+					"-framework",
+					"\"just_audio\"",
+					"-framework",
+					"\"local_auth_darwin\"",
+					"-framework",
+					"\"package_info_plus\"",
+					"-framework",
+					"\"path_provider_foundation\"",
+					"-framework",
+					"\"permission_handler_apple\"",
+					"-framework",
+					"\"sensors_plus\"",
+					"-framework",
+					"\"share_plus\"",
+					"-framework",
+					"\"shared_preferences_foundation\"",
+					"-framework",
+					"\"speech_to_text\"",
+					"-framework",
+					"\"wakelock_plus\"",
+					"-framework",
+					"\"workmanager\"",
+					"-weak_framework",
+					"\"BackgroundTasks\"",
+					"-weak_framework",
+					"\"LinkPresentation\"",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.ashokin2film.innermirror;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "Runner/Runner-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Profile;
@@ -534,6 +643,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
@@ -557,6 +667,7 @@
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				STRIP_STYLE = "non-global";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -629,10 +740,106 @@
 				CURRENT_PROJECT_VERSION = "$(FLUTTER_BUILD_NUMBER)";
 				DEVELOPMENT_TEAM = 25T89XKHQ6;
 				ENABLE_BITCODE = NO;
+				"HEADER_SEARCH_PATHS[arch=*]" = (
+					"$(inherited)",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/CwlCatchException/CwlCatchException.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/CwlCatchExceptionSupport/CwlCatchExceptionSupport.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/audio_session/audio_session.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/audio_waveforms/audio_waveforms.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/audioplayers_darwin/audioplayers_darwin.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/background_fetch/background_fetch.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/device_info_plus/device_info_plus.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/flutter_secure_storage/flutter_secure_storage.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/flutter_tts/flutter_tts.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/geolocator_apple/geolocator_apple.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/health/health.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/image_picker_ios/image_picker_ios.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/isar_flutter_libs/isar_flutter_libs.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/just_audio/just_audio.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/local_auth_darwin/local_auth_darwin.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/package_info_plus/package_info_plus.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/path_provider_foundation/path_provider_foundation.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/permission_handler_apple/permission_handler_apple.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/sensors_plus/sensors_plus.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/share_plus/share_plus.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/shared_preferences_foundation/shared_preferences_foundation.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/speech_to_text/speech_to_text.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/wakelock_plus/wakelock_plus.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/workmanager/workmanager.framework/Headers\"",
+					"\"${PODS_XCFRAMEWORKS_BUILD_DIR}/isar_flutter_libs/Headers\"",
+					"$(SRCROOT)/../llama.cpp/**",
+				);
 				INFOPLIST_FILE = Runner/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
+				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
+				"OTHER_LDFLAGS[arch=*]" = (
+					"$(inherited)",
+					"-ObjC",
+					"-l\"isar\"",
+					"-framework",
+					"\"CwlCatchException\"",
+					"-framework",
+					"\"CwlCatchExceptionSupport\"",
+					"-framework",
+					"\"StoreKit\"",
+					"-framework",
+					"\"TSBackgroundFetch\"",
+					"-framework",
+					"\"UIKit\"",
+					"-framework",
+					"\"audio_session\"",
+					"-framework",
+					"\"audio_waveforms\"",
+					"-framework",
+					"\"audioplayers_darwin\"",
+					"-framework",
+					"\"background_fetch\"",
+					"-framework",
+					"\"device_info_plus\"",
+					"-framework",
+					"\"flutter_secure_storage\"",
+					"-framework",
+					"\"flutter_tts\"",
+					"-framework",
+					"\"geolocator_apple\"",
+					"-framework",
+					"\"health\"",
+					"-framework",
+					"\"image_picker_ios\"",
+					"-framework",
+					"\"isar_flutter_libs\"",
+					"-framework",
+					"\"just_audio\"",
+					"-framework",
+					"\"local_auth_darwin\"",
+					"-framework",
+					"\"package_info_plus\"",
+					"-framework",
+					"\"path_provider_foundation\"",
+					"-framework",
+					"\"permission_handler_apple\"",
+					"-framework",
+					"\"sensors_plus\"",
+					"-framework",
+					"\"share_plus\"",
+					"-framework",
+					"\"shared_preferences_foundation\"",
+					"-framework",
+					"\"speech_to_text\"",
+					"-framework",
+					"\"wakelock_plus\"",
+					"-framework",
+					"\"workmanager\"",
+					"-weak_framework",
+					"\"BackgroundTasks\"",
+					"-weak_framework",
+					"\"LinkPresentation\"",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.ashokin2film.innermirror;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -640,6 +847,7 @@
 				SWIFT_OBJC_BRIDGING_HEADER = "Runner/Runner-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Debug;
@@ -656,16 +864,113 @@
 				CURRENT_PROJECT_VERSION = "$(FLUTTER_BUILD_NUMBER)";
 				DEVELOPMENT_TEAM = 25T89XKHQ6;
 				ENABLE_BITCODE = NO;
+				"HEADER_SEARCH_PATHS[arch=*]" = (
+					"$(inherited)",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/CwlCatchException/CwlCatchException.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/CwlCatchExceptionSupport/CwlCatchExceptionSupport.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/audio_session/audio_session.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/audio_waveforms/audio_waveforms.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/audioplayers_darwin/audioplayers_darwin.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/background_fetch/background_fetch.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/device_info_plus/device_info_plus.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/flutter_secure_storage/flutter_secure_storage.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/flutter_tts/flutter_tts.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/geolocator_apple/geolocator_apple.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/health/health.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/image_picker_ios/image_picker_ios.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/isar_flutter_libs/isar_flutter_libs.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/just_audio/just_audio.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/local_auth_darwin/local_auth_darwin.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/package_info_plus/package_info_plus.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/path_provider_foundation/path_provider_foundation.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/permission_handler_apple/permission_handler_apple.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/sensors_plus/sensors_plus.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/share_plus/share_plus.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/shared_preferences_foundation/shared_preferences_foundation.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/speech_to_text/speech_to_text.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/wakelock_plus/wakelock_plus.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/workmanager/workmanager.framework/Headers\"",
+					"\"${PODS_XCFRAMEWORKS_BUILD_DIR}/isar_flutter_libs/Headers\"",
+					"$(SRCROOT)/../llama.cpp/**",
+				);
 				INFOPLIST_FILE = Runner/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
+				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
+				"OTHER_LDFLAGS[arch=*]" = (
+					"$(inherited)",
+					"-ObjC",
+					"-l\"isar\"",
+					"-framework",
+					"\"CwlCatchException\"",
+					"-framework",
+					"\"CwlCatchExceptionSupport\"",
+					"-framework",
+					"\"StoreKit\"",
+					"-framework",
+					"\"TSBackgroundFetch\"",
+					"-framework",
+					"\"UIKit\"",
+					"-framework",
+					"\"audio_session\"",
+					"-framework",
+					"\"audio_waveforms\"",
+					"-framework",
+					"\"audioplayers_darwin\"",
+					"-framework",
+					"\"background_fetch\"",
+					"-framework",
+					"\"device_info_plus\"",
+					"-framework",
+					"\"flutter_secure_storage\"",
+					"-framework",
+					"\"flutter_tts\"",
+					"-framework",
+					"\"geolocator_apple\"",
+					"-framework",
+					"\"health\"",
+					"-framework",
+					"\"image_picker_ios\"",
+					"-framework",
+					"\"isar_flutter_libs\"",
+					"-framework",
+					"\"just_audio\"",
+					"-framework",
+					"\"local_auth_darwin\"",
+					"-framework",
+					"\"package_info_plus\"",
+					"-framework",
+					"\"path_provider_foundation\"",
+					"-framework",
+					"\"permission_handler_apple\"",
+					"-framework",
+					"\"sensors_plus\"",
+					"-framework",
+					"\"share_plus\"",
+					"-framework",
+					"\"shared_preferences_foundation\"",
+					"-framework",
+					"\"speech_to_text\"",
+					"-framework",
+					"\"wakelock_plus\"",
+					"-framework",
+					"\"workmanager\"",
+					"-weak_framework",
+					"\"BackgroundTasks\"",
+					"-weak_framework",
+					"\"LinkPresentation\"",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.ashokin2film.innermirror;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "Runner/Runner-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Release;

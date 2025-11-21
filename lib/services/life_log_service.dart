@@ -18,9 +18,20 @@ class LifeLogService {
   }
 
   Future<void> appendEntry(Map<String, dynamic> entry) async {
-    final file = await getLifeLogFile();
-    final jsonLine = jsonEncode(entry) + '\n';
-    await file.writeAsString(jsonLine, mode: FileMode.append);
+    try {
+      final file = await getLifeLogFile();
+      final jsonLine = jsonEncode(entry) + '\n';
+      await file.writeAsString(jsonLine, mode: FileMode.append);
+      // Verify write succeeded by checking file exists
+      if (!await file.exists()) {
+        throw Exception('File does not exist after write attempt');
+      }
+    } catch (e, stackTrace) {
+      print('[LifeLogService] Error appending entry: $e');
+      print('[LifeLogService] Stack trace: $stackTrace');
+      print('[LifeLogService] Entry that failed: ${jsonEncode(entry)}');
+      rethrow; // Re-throw so caller knows it failed
+    }
   }
 
   Future<List<Map<String, dynamic>>> getAllEntries() async {

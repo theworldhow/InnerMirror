@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../services/mirror_generation_service.dart';
 import '../../utils/screenshot_mode.dart';
+import '../../providers/soul_model_provider.dart';
 
 class StrengthCard extends ConsumerStatefulWidget {
   const StrengthCard({super.key});
@@ -28,6 +29,19 @@ class _StrengthCardState extends ConsumerState<StrengthCard> with SingleTickerPr
       curve: Curves.easeIn,
     );
     _loadContent();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    // Listen for mirror regeneration events and reload content
+    // Use listenManual since we're in didChangeDependencies, not build
+    ref.listenManual(mirrorRegeneratedProvider, (previous, next) {
+      if (previous != next && mounted) {
+        // Mirrors were regenerated, reload content
+        _loadContent();
+      }
+    });
   }
 
   @override
@@ -77,12 +91,14 @@ class _StrengthCardState extends ConsumerState<StrengthCard> with SingleTickerPr
   Widget build(BuildContext context) {
     return Container(
       color: Colors.black,
-      child: Center(
+      child: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 32),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
+              const SizedBox(height: 100),
               Text(
                 'STRENGTH',
                 style: TextStyle(
@@ -93,7 +109,7 @@ class _StrengthCardState extends ConsumerState<StrengthCard> with SingleTickerPr
                   fontFamily: '.SF Pro Display',
                 ),
               ),
-              const SizedBox(height: 48),
+              const SizedBox(height: 24),
               Text(
                 'What power do you hold within?',
                 textAlign: TextAlign.center,
@@ -105,50 +121,58 @@ class _StrengthCardState extends ConsumerState<StrengthCard> with SingleTickerPr
                   height: 1.6,
                 ),
               ),
-              const SizedBox(height: 48),
-              FadeTransition(
-                opacity: _fadeAnimation,
-                child: _content != null
-                    ? Column(
-                        children: [
-                          Text(
-                            ScreenshotMode.enabled ? ScreenshotMode.blurText(_content!) : _content!,
+              const SizedBox(height: 24),
+              Expanded(
+                child: FadeTransition(
+                  opacity: _fadeAnimation,
+                  child: _content != null
+                      ? SingleChildScrollView(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              SelectableText(
+                                ScreenshotMode.enabled ? ScreenshotMode.blurText(_content!) : _content!,
+                                textAlign: TextAlign.left,
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w400,
+                                  color: Colors.grey.shade200,
+                                  fontFamily: '.SF Pro Text',
+                                  height: 1.6,
+                                  letterSpacing: 0.2,
+                                ),
+                              ),
+                              if (_lastGenerated != null) ...[
+                                const SizedBox(height: 24),
+                                Text(
+                                  'Updated ${_formatTimeAgo(_lastGenerated)}',
+                                  style: TextStyle(
+                                    fontSize: 11,
+                                    fontWeight: FontWeight.w300,
+                                    color: Colors.grey.shade600,
+                                    fontFamily: '.SF Pro Text',
+                                    fontStyle: FontStyle.italic,
+                                  ),
+                                ),
+                              ],
+                              const SizedBox(height: 48),
+                            ],
+                          ),
+                        )
+                      : Center(
+                          child: Text(
+                            'Your resilience is not measured by what breaks you, but by what you rebuild. Recognize the force that has carried you this far.',
                             textAlign: TextAlign.center,
                             style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.w400,
-                              color: Colors.grey.shade200,
+                              fontSize: 16,
+                              fontWeight: FontWeight.w300,
+                              color: Colors.grey.shade600,
                               fontFamily: '.SF Pro Text',
                               height: 1.8,
-                              letterSpacing: 0.3,
                             ),
                           ),
-                          if (_lastGenerated != null) ...[
-                            const SizedBox(height: 24),
-                            Text(
-                              'Updated ${_formatTimeAgo(_lastGenerated)}',
-                              style: TextStyle(
-                                fontSize: 11,
-                                fontWeight: FontWeight.w300,
-                                color: Colors.grey.shade600,
-                                fontFamily: '.SF Pro Text',
-                                fontStyle: FontStyle.italic,
-                              ),
-                            ),
-                          ],
-                        ],
-                      )
-                    : Text(
-                        'Your resilience is not measured by what breaks you, but by what you rebuild. Recognize the force that has carried you this far.',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w300,
-                          color: Colors.grey.shade600,
-                          fontFamily: '.SF Pro Text',
-                          height: 1.8,
                         ),
-                      ),
+                ),
               ),
             ],
           ),
